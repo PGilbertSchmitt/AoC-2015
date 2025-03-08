@@ -62,7 +62,7 @@ impl From<Token> for isize {
 }
 
 #[derive(Debug)]
-struct Command {
+pub struct Command {
     action: Action,
     start: Pair,
     end: Pair,
@@ -86,7 +86,7 @@ fn read_line(lexer: &mut Lexer<'_, Token>) -> Option<Command> {
     }
 }
 
-fn process_instructions(input: &'static str) -> Vec<Command> {
+pub fn parse_commands(input: &'static str) -> Vec<Command> {
     let mut lex = Token::lexer(input);
     let mut commands = Vec::<Command>::new();
     while let Some(command) = read_line(&mut lex) {
@@ -95,38 +95,57 @@ fn process_instructions(input: &'static str) -> Vec<Command> {
     commands
 }
 
-// Iterate through the commands (which should have be in reverse order)
-// until we either reach a terminal action (turn-on or turn-off) or the
-// end of the list (which means off by default). For every toggle we reach,
-// we invert the toggle state, and when we return, we invert if the toggle
-// is active. 
-fn is_lit<'a, I>(commands: I, x: isize, y: isize) -> bool
-where
-    I: Iterator<Item = &'a Command>
-{
+fn light(value: bool) -> isize {
+    if value { 1 } else { 0 }
+}
+
+// Iterate through the commands in reverse order until we either reach a terminal action
+// (turn-on or turn-off) or the end of the list (which means off by default). For every
+// toggle we reach, we invert the toggle state, and when we return, we invert if the toggle
+// is active. Doing this in reverse order means we have terminal commands that can prevent
+// use from having to iterate through all commands. 
+pub fn is_lit(commands: &Vec<Command>, x: isize, y: isize) -> isize {
     let mut toggled = false;
-    for Command { action, start, end } in commands {
+    for Command { action, start, end } in commands.iter().rev() {
         if start.0 <= x && x <= end.0 && start.1 <= y && y <= end.1 {
             match action {
-                Action::TurnOn => return true != toggled,
-                Action::TurnOff => return false != toggled,
+                Action::TurnOn => return light(true != toggled),
+                Action::TurnOff => return light(false != toggled),
                 Action::Toggle => {
                     toggled = !toggled;
                 }
             }
         }
     }
-    false != toggled
+    light(false != toggled)
 }
 
-pub fn get_lit_lights(input: &'static str) -> isize {
-    let commands = process_instructions(input);
+// Since we need the full context of all commands that a pixel may go through, we can't
+// terminate early like with part 1. Still, it's just quick maffs.
+pub fn brightness_level(commands: &Vec<Command>, x: isize, y: isize) -> isize {
+    let mut level: isize = 0;
+    for Command { action, start, end } in commands.iter() {
+        if start.0 <= x && x <= end.0 && start.1 <= y && y <= end.1 {
+            match action {
+                Action::TurnOn => level += 1,
+                Action::TurnOff => level = (level - 1).max(0),
+                Action::Toggle => level += 2,
+            }
+        }
+    };
+    level
+}
+
+fn get_boundaries<'a, I>(commands: I) -> (Vec<isize>, Vec<isize>)
+where
+    I: Iterator<Item = &'a Command>
+{
     let mut x_boundaries = HashSet::<isize>::new();
     let mut y_boundaries = HashSet::<isize>::new();
     x_boundaries.insert(0);
     y_boundaries.insert(0);
 
-    for command in commands.iter() {
+    for command in commands {
         x_boundaries.insert(command.start.0);
         x_boundaries.insert(command.end.0 + 1);
         y_boundaries.insert(command.start.1);
@@ -137,6 +156,12 @@ pub fn get_lit_lights(input: &'static str) -> isize {
     let mut y_boundaries: Vec<isize> = y_boundaries.into_iter().collect();
     x_boundaries.sort();
     y_boundaries.sort();
+
+    (x_boundaries, y_boundaries)
+}
+
+pub fn get_lit_lights(commands: &Vec<Command>, f: fn(&Vec<Command>, isize, isize) -> isize) -> isize {
+    let (x_boundaries, y_boundaries) = get_boundaries(commands.iter()); 
 
     let mut on_count: isize = 0;
     
@@ -151,10 +176,7 @@ pub fn get_lit_lights(input: &'static str) -> isize {
             let y_len = **next_y - *cur_y;
             let block_size = x_len * y_len;
 
-            let cs = commands.iter().rev();
-            if is_lit(cs, *cur_x, *cur_y) {
-                on_count += block_size
-            }
+            on_count += f(commands, *cur_x, *cur_y) * block_size;
         }
     }
 
@@ -164,15 +186,16 @@ pub fn get_lit_lights(input: &'static str) -> isize {
 #[cfg(test)]
 mod tests {
     use core::str;
-
+    
     use super::*;
-
-    static SAMPLE: &'static str = "turn on 2,2 through 3,3\ntoggle 2,3 through 4,5";
+    
     static INPUT: &'static str = include_str!("./inputs/day6.txt");
-
+    
+    // This was way faster than I was expecting
     #[test]
-    fn try_this() {
-        assert_eq!(9, get_lit_lights(SAMPLE));
-        assert_eq!(400_410, get_lit_lights(INPUT));
+    fn part_1_and_2() {
+        let commands = parse_commands(INPUT);
+        assert_eq!(400_410, get_lit_lights(&commands, is_lit));
+        assert_eq!(15_343_601, get_lit_lights(&commands, brightness_level));
     }
 }
