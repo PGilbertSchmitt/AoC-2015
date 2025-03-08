@@ -1,21 +1,8 @@
-pub fn to_floor(input: &[u8]) -> isize {
-    let mut floor = 0;
-    input.iter().for_each(|byte| match *byte {
-        b'(' => {
-            floor += 1;
-        }
-        b')' => {
-            floor -= 1;
-        }
-        _ => unreachable!(),
-    });
-    return floor;
-}
-
-pub fn first_basement_index(input: &[u8]) -> usize {
-    let mut floor = 0;
-    for (index, byte) in input.iter().enumerate() {
-        match *byte {
+#[cfg(test)]
+mod tests {
+    fn to_floor(input: &[u8]) -> isize {
+        let mut floor = 0;
+        input.iter().for_each(|byte| match *byte {
             b'(' => {
                 floor += 1;
             }
@@ -23,17 +10,28 @@ pub fn first_basement_index(input: &[u8]) -> usize {
                 floor -= 1;
             }
             _ => unreachable!(),
-        }
-        if floor < 0 {
-            return index + 1;
-        }
+        });
+        return floor;
     }
-    return 0;
-}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+    fn first_basement_index(input: &[u8]) -> usize {
+        let mut floor = 0;
+        for (index, byte) in input.iter().enumerate() {
+            match *byte {
+                b'(' => {
+                    floor += 1;
+                }
+                b')' => {
+                    floor -= 1;
+                }
+                _ => unreachable!(),
+            }
+            if floor < 0 {
+                return index + 1;
+            }
+        }
+        return 0;
+    }
 
     static SAMPLE_1: &[u8] = b"(()(()(";
     static SAMPLE_2: &[u8] = b"()())";

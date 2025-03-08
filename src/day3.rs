@@ -1,45 +1,45 @@
-use std::collections::HashSet;
+#[cfg(test)]
+mod tests {
+    use std::collections::HashSet;
 
-use crate::util::Pair;
+    use crate::util::Pair;
 
-pub fn dir_diff(dir: u8) -> Pair {
-    match dir {
-        b'^' => Pair(0, 1),
-        b'v' => Pair(0, -1),
-        b'>' => Pair(1, 0),
-        b'<' => Pair(-1, 0),
-        _ => unreachable!(),
+    fn dir_diff(dir: u8) -> Pair {
+        match dir {
+            b'^' => Pair(0, 1),
+            b'v' => Pair(0, -1),
+            b'>' => Pair(1, 0),
+            b'<' => Pair(-1, 0),
+            _ => unreachable!(),
+        }
     }
-}
 
-pub fn houses_visited(input: &[u8]) -> usize {
-    let start = Pair(0, 0);
-    let mut houses: HashSet<Pair> = HashSet::new();
-    houses.insert(start.clone());
+    fn houses_visited(input: &[u8]) -> usize {
+        let start = Pair(0, 0);
+        let mut houses: HashSet<Pair> = HashSet::new();
+        houses.insert(start.clone());
 
-    input
-        .iter()
-        .fold((houses, start), |(mut house_set, last_house), dir| {
-            let next_house = last_house + dir_diff(*dir);
-            house_set.insert(next_house.clone());
-            (house_set, next_house)
-        })
-        .0
-        .len()
-}
+        input
+            .iter()
+            .fold((houses, start), |(mut house_set, last_house), dir| {
+                let next_house = last_house + dir_diff(*dir);
+                house_set.insert(next_house.clone());
+                (house_set, next_house)
+            })
+            .0
+            .len()
+    }
 
-pub fn houses_visited_with_robo_santa(input: &[u8]) -> usize {
-    let santa_start: Pair = Pair(0, 0);
-    let robot_start: Pair = Pair(0, 0);
-    let mut houses: HashSet<Pair> = HashSet::new();
-    houses.insert(santa_start.clone());
+    fn houses_visited_with_robo_santa(input: &[u8]) -> usize {
+        let santa_start: Pair = Pair(0, 0);
+        let robot_start: Pair = Pair(0, 0);
+        let mut houses: HashSet<Pair> = HashSet::new();
+        houses.insert(santa_start.clone());
 
-    input
-        .iter()
-        .enumerate()
-        .fold(
-            (houses, santa_start, robot_start),
-            |acc, (index, dir)| {
+        input
+            .iter()
+            .enumerate()
+            .fold((houses, santa_start, robot_start), |acc, (index, dir)| {
                 let (mut house_set, last_santa, last_robot) = acc;
                 let diff = dir_diff(*dir);
                 let (next_santa, next_robot, new_pos) = if index % 2 == 0 {
@@ -53,15 +53,10 @@ pub fn houses_visited_with_robo_santa(input: &[u8]) -> usize {
                 };
                 house_set.insert(new_pos);
                 (house_set, next_santa, next_robot)
-            },
-        )
-        .0
-        .len()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
+            })
+            .0
+            .len()
+    }
 
     static S1: &[u8] = b"^>v<";
     static S2: &[u8] = b"^v^v^v^v^v";

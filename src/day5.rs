@@ -1,98 +1,98 @@
-use std::collections::HashMap;
+#[cfg(test)]
+mod tests {
+    use std::collections::HashMap;
 
-fn is_nice(word: &[u8]) -> bool {
-    let mut vowel_count = 0;
-    let mut has_double = false;
-    let mut last_ch: Option<char> = None;
+    fn is_nice(word: &[u8]) -> bool {
+        let mut vowel_count = 0;
+        let mut has_double = false;
+        let mut last_ch: Option<char> = None;
 
-    for ch in word.iter() {
-        let ch = (*ch) as char;
+        for ch in word.iter() {
+            let ch = (*ch) as char;
 
-        if ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' {
-            vowel_count += 1;
+            if ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' {
+                vowel_count += 1;
+            }
+
+            if Some(ch) == last_ch {
+                has_double = true;
+            }
+
+            if let Some(last_ch) = last_ch {
+                let pair = (last_ch, ch);
+                if pair == ('a', 'b')
+                    || pair == ('c', 'd')
+                    || pair == ('p', 'q')
+                    || pair == ('x', 'y')
+                {
+                    return false;
+                }
+            }
+
+            last_ch = Some(ch);
         }
 
-        if Some(ch) == last_ch {
-            has_double = true;
-        }
+        has_double && vowel_count >= 3
+    }
 
-        if let Some(last_ch) = last_ch {
-            let pair = (last_ch, ch);
-            if pair == ('a', 'b') || pair == ('c', 'd') || pair == ('p', 'q') || pair == ('x', 'y') {
-                return false;
+    fn count_nice(input: &[u8]) -> usize {
+        input
+            .trim_ascii()
+            .split(|c| *c == b'\n')
+            .filter(|word| is_nice(*word))
+            .count()
+    }
+
+    type Pair = (u8, u8);
+
+    fn is_really_nice(word: &[u8]) -> bool {
+        let mut letter_pairs: HashMap<Pair, Vec<usize>> = HashMap::new();
+
+        letter_pairs.insert((word[0], word[1]), vec![0]);
+
+        let mut found_disjoint_pair = false;
+        let mut found_sandwich = false;
+
+        for (idx, window) in word.windows(3).enumerate() {
+            let a = window[0];
+            let b = window[1];
+            let c = window[2];
+
+            let new_pair = (b, c);
+            let new_pair_idx = idx + 1;
+            letter_pairs
+                .entry(new_pair)
+                .and_modify(|v| {
+                    if v.iter().any(|prev| new_pair_idx - *prev > 1) {
+                        found_disjoint_pair = true;
+                    }
+                    v.push(new_pair_idx);
+                })
+                .or_insert(vec![new_pair_idx]);
+
+            if a == c {
+                found_sandwich = true;
+            }
+
+            if found_disjoint_pair && found_sandwich {
+                return true;
             }
         }
 
-        last_ch = Some(ch);
+        false
     }
 
-    has_double && vowel_count >= 3
-}
-
-pub fn count_nice(input: &[u8]) -> usize {
-    input
-        .trim_ascii()
-        .split(|c| *c == b'\n')
-        .filter(|word| is_nice(*word))
-        .count()
-        
-}
-
-type Pair = (u8, u8);
-
-fn is_really_nice(word: &[u8]) -> bool {
-    let mut letter_pairs: HashMap<Pair, Vec<usize>> = HashMap::new();
-
-    letter_pairs.insert((word[0], word[1]), vec![0]);
-    
-    let mut found_disjoint_pair = false;
-    let mut found_sandwich = false;
-
-    for (idx, window) in word.windows(3).enumerate() {
-        let a = window[0];
-        let b = window[1];
-        let c = window[2];
-
-        let new_pair = (b, c);
-        let new_pair_idx = idx+1;
-        letter_pairs.entry(new_pair)
-            .and_modify(|v| {
-                if v.iter().any(|prev| new_pair_idx - *prev > 1 ) {
-                    found_disjoint_pair = true;
-                }
-                v.push(new_pair_idx);
-            })
-            .or_insert(vec![new_pair_idx]);
-
-        if a == c {
-            found_sandwich = true;
-        }
-
-        if found_disjoint_pair && found_sandwich {
-            return true;
-        }
+    fn count_really_nice(input: &[u8]) -> usize {
+        input
+            .trim_ascii()
+            .split(|c| *c == b'\n')
+            .filter(|word| is_really_nice(*word))
+            .count()
     }
-
-    false
-}
-
-pub fn count_really_nice(input: &[u8]) -> usize {
-    input
-        .trim_ascii()
-        .split(|c| *c == b'\n')
-        .filter(|word| is_really_nice(*word))
-        .count()
-
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
 
     static SAMPLE_1: &[u8] =
         b"ugknbfddgicrmopn\njchzalrnumimnmhp\nhaegwjzuvuyypxyu\ndvszwmarrgswjxmb\n";
-    static SAMPLE_2: &[u8] =
-        b"qjhvhtzxzqqjkmpb\nxxyxx\nuurcxstgmygtbstg\nieodomkazucvgmuy\n";
+    static SAMPLE_2: &[u8] = b"qjhvhtzxzqqjkmpb\nxxyxx\nuurcxstgmygtbstg\nieodomkazucvgmuy\n";
     static INPUT: &[u8] = include_bytes!("./inputs/day5.txt");
 
     #[test]
