@@ -1,6 +1,6 @@
 use std::ops::Add;
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct Pair(pub isize, pub isize);
 
 impl Add<Pair> for Pair {
