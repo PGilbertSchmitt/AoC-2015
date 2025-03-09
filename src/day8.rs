@@ -1,4 +1,4 @@
-use logos::{Lexer, Logos};
+use logos::Logos;
 
 #[derive(Logos)]
 #[logos(skip r"[\n]")]
