@@ -32,7 +32,7 @@ static SAMPLE: &[u8] = b"2x3x4\n1x1x10\n";
 static INPUT: &[u8] = include_bytes!("./inputs/day2.txt");
 
 #[test]
-fn part_1_and_2() {
+fn both_parts() {
     let (sample_paper, sample_ribbon) = total_materials(SAMPLE);
     let (input_paper, input_ribbon) = total_materials(INPUT);
 

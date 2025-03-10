@@ -199,7 +199,7 @@ fn calculate_all_wires(input: &str, b_override: Option<u16>) -> u16 {
 static INPUT: &'static str = include_str!("./inputs/day7.txt");
 
 #[test]
-fn part_1_and_2() {
+fn both_parts() {
     let part_1_answer = calculate_all_wires(INPUT, None);
     assert_eq!(3176, part_1_answer);
     let part_2_answer = calculate_all_wires(INPUT, Some(part_1_answer));

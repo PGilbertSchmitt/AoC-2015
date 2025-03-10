@@ -193,7 +193,7 @@ static INPUT: &'static str = include_str!("./inputs/day6.txt");
 
 // This was way faster than I was expecting
 #[test]
-fn part_1_and_2() {
+fn both_parts() {
     let commands = parse_commands(INPUT);
     assert_eq!(400_410, get_lit_lights(&commands, is_lit));
     assert_eq!(15_343_601, get_lit_lights(&commands, brightness_level));
