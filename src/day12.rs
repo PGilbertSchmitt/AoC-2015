@@ -50,7 +50,9 @@ static INPUT: &str = include_str!("./inputs/day12.txt");
 fn part_1() {
     let mut total = 0;
     for token in Token::lexer(INPUT) {
-        if let Ok(Token::Number(val)) = token { total += val }
+        if let Ok(Token::Number(val)) = token {
+            total += val
+        }
     }
     assert_eq!(111754, total);
 }

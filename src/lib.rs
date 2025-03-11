@@ -34,4 +34,7 @@ pub mod day11;
 #[cfg(test)]
 pub mod day12;
 
+#[cfg(test)]
+pub mod day13;
+
 mod util;

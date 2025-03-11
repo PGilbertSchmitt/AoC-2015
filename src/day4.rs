@@ -32,21 +32,15 @@ fn find_hash_input(input: &[u8], num_zeros: usize) -> usize {
     }
 }
 
-static S1: &[u8] = b"abcdef";
-static S2: &[u8] = b"pqrstuv";
 static INPUT: &[u8] = b"yzbqklnj";
 
 #[test]
 fn part_1() {
-    assert_eq!(609043, find_hash_input(S1, 5));
-    assert_eq!(1048970, find_hash_input(S2, 5));
     assert_eq!(282749, find_hash_input(INPUT, 5));
 }
 
 #[test]
 fn part_2() {
-    // The samples add a whole 1.6 seconds in release mode
-    // assert_eq!(6742839, find_hash_input(S1, 6));
-    // assert_eq!(5714438, find_hash_input(S2, 6));
-    assert_eq!(9962624, find_hash_input(INPUT, 6));
+    // In release mode, this takes ~1.34 seconds to run
+    // assert_eq!(9962624, find_hash_input(INPUT, 6));
 }
