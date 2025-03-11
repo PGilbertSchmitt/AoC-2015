@@ -18,10 +18,7 @@ fn is_nice(word: &[u8]) -> bool {
 
         if let Some(last_ch) = last_ch {
             let pair = (last_ch, ch);
-            if pair == ('a', 'b')
-                || pair == ('c', 'd')
-                || pair == ('p', 'q')
-                || pair == ('x', 'y')
+            if pair == ('a', 'b') || pair == ('c', 'd') || pair == ('p', 'q') || pair == ('x', 'y')
             {
                 return false;
             }

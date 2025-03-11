@@ -31,7 +31,7 @@ enum Token {
     Arbre,
 
     #[regex(r"[0-9]+", |lex| lex.slice().parse::<usize>().unwrap())]
-    Distance(usize)
+    Distance(usize),
 }
 
 impl Token {
@@ -95,7 +95,7 @@ fn build_dist_map(input: &str) -> HashMap<(City, City), usize> {
 
         h.insert((city_1, city_2), dist);
         h.insert((city_2, city_1), dist);
-    } 
+    }
 
     h
 }

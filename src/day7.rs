@@ -141,7 +141,11 @@ fn parse_binop(lexer: &mut Lexer<'_, Token>, operand_1: Source, op: Token) -> Ga
     }
 }
 
-fn calculate_wire(label: &str, map: &HashMap<String, Gate>, cache: &mut HashMap<String, u16>) -> u16 {
+fn calculate_wire(
+    label: &str,
+    map: &HashMap<String, Gate>,
+    cache: &mut HashMap<String, u16>,
+) -> u16 {
     if let Some(cached_value) = cache.get(label) {
         return *cached_value;
     }
@@ -155,19 +159,19 @@ fn calculate_wire(label: &str, map: &HashMap<String, Gate>, cache: &mut HashMap<
         Gate::Or(source_1, source_2, _) => {
             extract_value(source_1, map, cache) | extract_value(source_2, map, cache)
         }
-        Gate::RShift(source_1, offset, _) => {
-            extract_value(source_1, map, cache) >> offset
-        }
-        Gate::LShift(source_1, offset, _) => {
-            extract_value(source_1, map, cache) << offset
-        }
+        Gate::RShift(source_1, offset, _) => extract_value(source_1, map, cache) >> offset,
+        Gate::LShift(source_1, offset, _) => extract_value(source_1, map, cache) << offset,
     };
     cache.entry(label.to_owned()).or_insert(result);
 
     result
 }
 
-fn extract_value(source: &Source, map: &HashMap<String, Gate>, cache: &mut HashMap<String, u16>) -> u16 {
+fn extract_value(
+    source: &Source,
+    map: &HashMap<String, Gate>,
+    cache: &mut HashMap<String, u16>,
+) -> u16 {
     match source {
         Source::Signal(value) => return *value,
         Source::Wire(label) => calculate_wire(&label, map, cache),
@@ -182,16 +186,16 @@ fn calculate_all_wires(input: &str, b_override: Option<u16>) -> u16 {
     if let Some(b_override) = b_override {
         gate_cache.insert(String::from("b"), b_override);
     }
-    
+
     while let Some(gate) = read_line(&mut lex) {
         gate_map.insert(gate.output_label(), gate);
-    };
+    }
 
     let gate_map = gate_map; // Remove mutability
 
     for (wire_label, _) in gate_map.iter() {
         calculate_wire(wire_label, &gate_map, &mut gate_cache);
-    };
+    }
 
     *gate_cache.get("a").unwrap()
 }

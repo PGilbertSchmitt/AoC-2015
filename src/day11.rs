@@ -28,7 +28,7 @@ fn increment(password: &mut Vec<u8>) {
                 *letter = value;
             }
         }
-    };
+    }
 }
 
 fn parse_input(input: &str) -> Vec<u8> {
@@ -64,7 +64,7 @@ fn valid_password(password: &Vec<u8>) -> bool {
         }
 
         last = Some(*ch)
-    };
+    }
 
     if pair_idxs.len() >= 2 {
         let first_pair_idx = *pair_idxs.first().unwrap();
@@ -79,9 +79,18 @@ fn valid_password(password: &Vec<u8>) -> bool {
 #[test]
 fn solutions() {
     let mut pass = parse_input("vzbxkghb");
-    while !valid_password(&pass) { increment(&mut pass); }
+    let mut i = 0;
+    while !valid_password(&pass) {
+        i += 1;
+        increment(&mut pass);
+    }
+    println!("i:{i}");
     assert_eq!("vzbxxyzz", pass_string(&pass), "part 1");
     increment(&mut pass);
-    while !valid_password(&pass) { increment(&mut pass); }
+    while !valid_password(&pass) {
+        i += 1;
+        increment(&mut pass);
+    }
+    println!("i:{i}");
     assert_eq!("vzcaabcc", pass_string(&pass), "part 2");
 }

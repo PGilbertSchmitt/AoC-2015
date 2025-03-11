@@ -163,10 +163,7 @@ where
     (x_boundaries, y_boundaries)
 }
 
-fn get_lit_lights(
-    commands: &Vec<Command>,
-    f: fn(&Vec<Command>, isize, isize) -> isize,
-) -> isize {
+fn get_lit_lights(commands: &Vec<Command>, f: fn(&Vec<Command>, isize, isize) -> isize) -> isize {
     let (x_boundaries, y_boundaries) = get_boundaries(commands.iter());
 
     let mut on_count: isize = 0;
