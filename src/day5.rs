@@ -85,10 +85,9 @@ fn count_really_nice(input: &[u8]) -> usize {
         .count()
 }
 
-static SAMPLE_1: &[u8] =
-    b"ugknbfddgicrmopn\njchzalrnumimnmhp\nhaegwjzuvuyypxyu\ndvszwmarrgswjxmb\n";
-static SAMPLE_2: &[u8] = b"qjhvhtzxzqqjkmpb\nxxyxx\nuurcxstgmygtbstg\nieodomkazucvgmuy\n";
-static INPUT: &[u8] = include_bytes!("./inputs/day5.txt");
+const SAMPLE_1: &[u8] = b"ugknbfddgicrmopn\njchzalrnumimnmhp\nhaegwjzuvuyypxyu\ndvszwmarrgswjxmb\n";
+const SAMPLE_2: &[u8] = b"qjhvhtzxzqqjkmpb\nxxyxx\nuurcxstgmygtbstg\nieodomkazucvgmuy\n";
+const INPUT: &[u8] = include_bytes!("./inputs/day5.txt");
 
 #[test]
 fn part_1() {

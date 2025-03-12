@@ -28,8 +28,8 @@ fn total_materials(input: &[u8]) -> (usize, usize) {
         })
 }
 
-static SAMPLE: &[u8] = b"2x3x4\n1x1x10\n";
-static INPUT: &[u8] = include_bytes!("./inputs/day2.txt");
+const SAMPLE: &[u8] = b"2x3x4\n1x1x10\n";
+const INPUT: &[u8] = include_bytes!("./inputs/day2.txt");
 
 #[test]
 fn both_parts() {

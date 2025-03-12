@@ -51,7 +51,7 @@ impl Token {
     }
 }
 
-static INPUT: &'static str = include_str!("./inputs/day8.txt");
+const INPUT: &'static str = include_str!("./inputs/day8.txt");
 
 #[test]
 fn part_1() {

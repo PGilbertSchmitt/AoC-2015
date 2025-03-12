@@ -200,7 +200,7 @@ fn calculate_all_wires(input: &str, b_override: Option<u16>) -> u16 {
     *gate_cache.get("a").unwrap()
 }
 
-static INPUT: &'static str = include_str!("./inputs/day7.txt");
+const INPUT: &'static str = include_str!("./inputs/day7.txt");
 
 #[test]
 fn both_parts() {

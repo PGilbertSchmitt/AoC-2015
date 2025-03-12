@@ -162,7 +162,7 @@ fn total_happiness(mut table: Vec<Name>, map: &NameMap, with_dud: bool) -> i32 {
     total
 }
 
-static INPUT: &str = include_str!("./inputs/day13.txt");
+const INPUT: &str = include_str!("./inputs/day13.txt");
 
 #[test]
 fn part_1() {

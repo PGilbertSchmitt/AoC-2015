@@ -56,9 +56,9 @@ fn houses_visited_with_robo_santa(input: &[u8]) -> usize {
         .len()
 }
 
-static S1: &[u8] = b"^>v<";
-static S2: &[u8] = b"^v^v^v^v^v";
-static INPUT: &[u8] = include_bytes!("./inputs/day3.txt");
+const S1: &[u8] = b"^>v<";
+const S2: &[u8] = b"^v^v^v^v^v";
+const INPUT: &[u8] = include_bytes!("./inputs/day3.txt");
 
 #[test]
 fn part_1() {

@@ -32,7 +32,7 @@ fn find_hash_input(input: &[u8], num_zeros: usize) -> usize {
     }
 }
 
-static INPUT: &[u8] = b"yzbqklnj";
+const INPUT: &[u8] = b"yzbqklnj";
 
 #[test]
 fn part_1() {

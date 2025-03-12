@@ -31,9 +31,9 @@ fn first_basement_index(input: &[u8]) -> usize {
     return 0;
 }
 
-static SAMPLE_1: &[u8] = b"(()(()(";
-static SAMPLE_2: &[u8] = b"()())";
-static INPUT: &[u8] = include_bytes!("./inputs/day1.txt");
+const SAMPLE_1: &[u8] = b"(()(()(";
+const SAMPLE_2: &[u8] = b"()())";
+const INPUT: &[u8] = include_bytes!("./inputs/day1.txt");
 
 #[test]
 fn part1() {

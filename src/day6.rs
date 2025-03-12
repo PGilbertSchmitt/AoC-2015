@@ -186,7 +186,7 @@ fn get_lit_lights(commands: &Vec<Command>, f: fn(&Vec<Command>, isize, isize) ->
     on_count
 }
 
-static INPUT: &'static str = include_str!("./inputs/day6.txt");
+const INPUT: &'static str = include_str!("./inputs/day6.txt");
 
 // This was way faster than I was expecting
 #[test]

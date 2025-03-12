@@ -128,7 +128,7 @@ fn find_highest_route_cost(lookup: &HashMap<(City, City), usize>) -> usize {
     max_cost
 }
 
-static INPUT: &'static str = include_str!("./inputs/day9.txt");
+const INPUT: &'static str = include_str!("./inputs/day9.txt");
 
 #[test]
 fn solutions() {

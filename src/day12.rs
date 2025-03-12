@@ -44,7 +44,7 @@ fn extract_values(lex: &mut Lexer<'_, Token>) -> i32 {
     block_total
 }
 
-static INPUT: &str = include_str!("./inputs/day12.txt");
+const INPUT: &str = include_str!("./inputs/day12.txt");
 
 #[test]
 fn part_1() {
