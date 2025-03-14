@@ -98,7 +98,7 @@ fn find_valid_aunt(input: &str, matcher: fn(&Compound) -> bool) -> Option<u16> {
 
     while let Some(tok_res) = lex.next() {
         let aunt_id = tok_res.unwrap().take_count();
-        
+
         // Every aunt has 3 pairs of compound/count
         let mut still_valid = true;
         for _ in 0..3 {
@@ -123,5 +123,8 @@ const INPUT: &str = include_str!("./inputs/day16.txt");
 #[test]
 fn part_1() {
     assert_eq!(Some(40), find_valid_aunt(INPUT, Compound::matches_exact));
-    assert_eq!(Some(241), find_valid_aunt(INPUT, Compound::matches_with_ranges));
+    assert_eq!(
+        Some(241),
+        find_valid_aunt(INPUT, Compound::matches_with_ranges)
+    );
 }
