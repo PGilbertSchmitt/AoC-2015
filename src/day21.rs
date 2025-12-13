@@ -10,33 +10,105 @@ struct Item {
 }
 
 // (cost, damage)
-const WEAPON_STORE: [Item; 5] = [ 
-    Item { cost:  8, attack: 4, defense: 0 },
-    Item { cost: 10, attack: 5, defense: 0 },
-    Item { cost: 25, attack: 6, defense: 0 },
-    Item { cost: 40, attack: 7, defense: 0 },
-    Item { cost: 74, attack: 8, defense: 0 },
+const WEAPON_STORE: [Item; 5] = [
+    Item {
+        cost: 8,
+        attack: 4,
+        defense: 0,
+    },
+    Item {
+        cost: 10,
+        attack: 5,
+        defense: 0,
+    },
+    Item {
+        cost: 25,
+        attack: 6,
+        defense: 0,
+    },
+    Item {
+        cost: 40,
+        attack: 7,
+        defense: 0,
+    },
+    Item {
+        cost: 74,
+        attack: 8,
+        defense: 0,
+    },
 ];
 
 // (cost, armor)
 const ARMOR_STORE: [Item; 6] = [
-    Item { cost:   0, attack: 0, defense: 0 }, // The NONE option
-    Item { cost:  13, attack: 0, defense: 1 },
-    Item { cost:  31, attack: 0, defense: 2 },
-    Item { cost:  53, attack: 0, defense: 3 },
-    Item { cost:  75, attack: 0, defense: 4 },
-    Item { cost: 102, attack: 0, defense: 5 },
+    Item {
+        cost: 0,
+        attack: 0,
+        defense: 0,
+    }, // The NONE option
+    Item {
+        cost: 13,
+        attack: 0,
+        defense: 1,
+    },
+    Item {
+        cost: 31,
+        attack: 0,
+        defense: 2,
+    },
+    Item {
+        cost: 53,
+        attack: 0,
+        defense: 3,
+    },
+    Item {
+        cost: 75,
+        attack: 0,
+        defense: 4,
+    },
+    Item {
+        cost: 102,
+        attack: 0,
+        defense: 5,
+    },
 ];
 
 // (cost, damage, armor)
 const RING_STORE: [Item; 7] = [
-    Item { cost:   0, attack: 0, defense: 0 }, // The NONE option
-    Item { cost:  25, attack: 1, defense: 0 },
-    Item { cost:  50, attack: 2, defense: 0 },
-    Item { cost: 100, attack: 3, defense: 0 },
-    Item { cost:  20, attack: 0, defense: 1 },
-    Item { cost:  40, attack: 0, defense: 2 },
-    Item { cost:  80, attack: 0, defense: 3 },
+    Item {
+        cost: 0,
+        attack: 0,
+        defense: 0,
+    }, // The NONE option
+    Item {
+        cost: 25,
+        attack: 1,
+        defense: 0,
+    },
+    Item {
+        cost: 50,
+        attack: 2,
+        defense: 0,
+    },
+    Item {
+        cost: 100,
+        attack: 3,
+        defense: 0,
+    },
+    Item {
+        cost: 20,
+        attack: 0,
+        defense: 1,
+    },
+    Item {
+        cost: 40,
+        attack: 0,
+        defense: 2,
+    },
+    Item {
+        cost: 80,
+        attack: 0,
+        defense: 3,
+    },
 ];
 
 struct Build {
@@ -46,20 +118,29 @@ struct Build {
 }
 
 impl Build {
-    fn augment(&self, &Item { attack: damage, defense: armor, .. }: &Item) -> Self {
+    fn augment(
+        &self,
+        &Item {
+            attack: damage,
+            defense: armor,
+            ..
+        }: &Item,
+    ) -> Self {
         Self {
             health: self.health,
             damage: self.damage + damage,
             armor: self.armor + armor,
         }
     }
-    
+
     fn can_beat(&self, other: &Build) -> bool {
         let applied_self_damage = 1.max(self.damage - other.armor);
-        let turns_to_beat_other = (other.health / applied_self_damage) + (other.health % applied_self_damage).min(1);
-        
+        let turns_to_beat_other =
+            (other.health / applied_self_damage) + (other.health % applied_self_damage).min(1);
+
         let applied_boss_damage = 1.max(other.damage - self.armor);
-        let turns_to_beat_self = (self.health / applied_boss_damage) + (self.health % applied_boss_damage).min(1);
+        let turns_to_beat_self =
+            (self.health / applied_boss_damage) + (self.health % applied_boss_damage).min(1);
 
         // Since the player goes first, if they would take the same number of turns to beat the boss, they will get the last hit before the boss does
         turns_to_beat_other <= turns_to_beat_self
@@ -95,14 +176,14 @@ fn find_extreme_builds() -> (i64, i64) {
     let base_player = Build {
         health: 100,
         damage: 0,
-        armor: 0
+        armor: 0,
     };
 
     // The AofC day 21 input
     let boss = Build {
         health: 103,
         damage: 9,
-        armor: 2
+        armor: 2,
     };
 
     let mut lowest_cost_winner = i64::MAX;

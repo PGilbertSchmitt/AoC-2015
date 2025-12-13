@@ -1,9 +1,12 @@
 use itertools::Itertools;
 
 fn first_idx_over_value(elements: &Vec<usize>, value: usize) -> usize {
-    elements.iter().enumerate().find_or_first(|(_, presents)| {
-        **presents >= value
-    }).unwrap().0
+    elements
+        .iter()
+        .enumerate()
+        .find_or_first(|(_, presents)| **presents >= value)
+        .unwrap()
+        .0
 }
 
 fn calculate_present(value: usize) -> (usize, usize) {
@@ -22,7 +25,10 @@ fn calculate_present(value: usize) -> (usize, usize) {
         }
     }
 
-    (first_idx_over_value(&part1, value), first_idx_over_value(&part2, value))
+    (
+        first_idx_over_value(&part1, value),
+        first_idx_over_value(&part2, value),
+    )
 }
 
 #[test]
