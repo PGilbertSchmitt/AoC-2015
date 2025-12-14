@@ -57,7 +57,7 @@ impl Token {
     }
 }
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy)]
 enum City {
     Faerun,
     Tristram,

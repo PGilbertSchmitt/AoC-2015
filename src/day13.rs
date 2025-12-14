@@ -35,7 +35,7 @@ impl Token {
     }
 }
 
-#[derive(PartialEq, Eq, Hash, Debug, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone)]
 enum Name {
     Alice,
     Bob,

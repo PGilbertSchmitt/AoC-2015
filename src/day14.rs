@@ -1,6 +1,6 @@
 use logos::Logos;
 
-#[derive(Logos, Debug)]
+#[derive(Logos)]
 #[logos(skip "[A-Za-z\n ,/.]")]
 enum Token {
     #[regex("[0-9]+", |lex| lex.slice().parse::<usize>().unwrap())]
@@ -15,7 +15,6 @@ impl Token {
     }
 }
 
-#[derive(Debug)]
 struct Reindeer {
     flight_speed: usize,
     flight_time: usize,

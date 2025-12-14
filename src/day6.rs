@@ -33,7 +33,6 @@ impl Display for Token {
     }
 }
 
-#[derive(Debug)]
 enum Action {
     TurnOff,
     TurnOn,
@@ -60,7 +59,6 @@ impl From<Token> for isize {
     }
 }
 
-#[derive(Debug)]
 struct Command {
     action: Action,
     start: Pair,

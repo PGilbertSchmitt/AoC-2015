@@ -2,7 +2,7 @@ use logos::Logos;
 
 const INPUT: &'static str = include_str!("./inputs/day23.txt");
 
-#[derive(Logos, Debug)]
+#[derive(Logos)]
 #[logos(skip r"[\n ,]")]
 enum Token {
     #[token("hlf")]
@@ -40,25 +40,24 @@ impl Token {
                     Register::B
                 }
             }
-            _ => panic!("Expected '{self:?}' to be a register"),
+            _ => unreachable!(),
         }
     }
 
     fn to_offset(self) -> i64 {
         match self {
             Self::Offset(offset) => offset,
-            _ => panic!("Expected '{self:?}' to be an offset"),
+            _ => unreachable!(),
         }
     }
 }
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(PartialEq, Eq)]
 enum Register {
     A,
     B,
 }
 
-#[derive(Debug)]
 enum Ins {
     Half(Register),
     Triple(Register),
@@ -101,9 +100,7 @@ fn create(input: &str) -> Instructions {
                 let offset = tokens.next().unwrap().unwrap().to_offset();
                 instructions.push(Ins::JumpIfOne(reg, offset));
             }
-            other => {
-                panic!("Unexpected token {other:?}");
-            }
+            _ => unreachable!(),
         }
     }
 

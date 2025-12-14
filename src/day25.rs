@@ -13,8 +13,8 @@ When considering the columnns from that point, we continue incrementing from whe
 an extra increment in between. Since row=5, the last increment was +4. Now we start incrementing with +6.
 For column 4, we get 11 (+6) 17 (+7) 24 (+8) 32
 ( )( )( )( )( )( ) total: 17
-( )( )( )( )( )( )( ) total: 24 
-( )( )( )( )( )( )( )( ) total: 32 
+( )( )( )( )( )( )( ) total: 24
+( )( )( )( )( )( )( )( ) total: 32
 
 This is just a continuation of the same shape, only without the amount equal to the row, so we add the row and col,
 get the nth value of the sequence using the equation for that value, then just subtract the row. */

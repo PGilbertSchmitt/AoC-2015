@@ -15,7 +15,11 @@ const SAMPLE: &'static str = "
 const INPUT: &'static str = include_str!("./inputs/day24.txt");
 
 fn parse_packages(input: &str) -> Vec<usize> {
-    let mut packages: Vec<usize> = input.trim().split("\n").map(|s| s.parse::<usize>().unwrap()).collect();
+    let mut packages: Vec<usize> = input
+        .trim()
+        .split("\n")
+        .map(|s| s.parse::<usize>().unwrap())
+        .collect();
     packages.sort();
     packages.into_iter().rev().collect()
 }
@@ -37,12 +41,12 @@ fn find_lowest_config(packages: &Vec<usize>, compartments: usize) -> usize {
         if compartment_weight == subset.iter().copied().sum() {
             if subset.len() <= len_of_smallest_valid_set {
                 len_of_smallest_valid_set = subset.len();
-                smallest_valid_quantum_entaglement = smallest_valid_quantum_entaglement.min(subset.iter().copied().product());
+                smallest_valid_quantum_entaglement =
+                    smallest_valid_quantum_entaglement.min(subset.iter().copied().product());
             }
         }
-        
     }
-    
+
     smallest_valid_quantum_entaglement
 }
 

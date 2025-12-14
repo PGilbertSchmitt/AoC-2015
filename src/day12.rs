@@ -1,6 +1,6 @@
 use logos::{Lexer, Logos};
 
-#[derive(Logos, Debug)]
+#[derive(Logos)]
 #[logos(skip r"[^0-9\-\{\}]")]
 enum Token {
     #[regex("-?[0-9]+", |lex| lex.slice().parse::<i32>().unwrap())]

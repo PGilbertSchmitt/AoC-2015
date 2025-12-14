@@ -2,7 +2,7 @@ use std::i64;
 
 use fxhash::FxHashSet;
 
-#[derive(Debug, Hash, Eq, PartialEq)]
+#[derive(Hash, Eq, PartialEq)]
 struct Item {
     cost: i64,
     attack: i64,
